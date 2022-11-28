@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/gen/colors.gen.dart';
+import 'package:instagram/pages/main/main_page.dart';
 import 'package:instagram/pages/sign_up_page.dart';
 import 'package:instagram/widgets/text_fields/login_text_field.dart';
 
@@ -65,7 +66,13 @@ class LoginPage extends StatelessWidget {
                       height: 20,
                     ),
                     OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(CupertinoPageRoute(
+                            builder: (context) {
+                              return MainPage();
+                            },
+                          ),);
+                        },
                         style: OutlinedButton.styleFrom(
                             foregroundColor: ColorName.white,
                             minimumSize: const Size(double.infinity, 48),
@@ -99,11 +106,12 @@ class LoginPage extends StatelessWidget {
                       text: "Sign up",
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.of(context).push(CupertinoPageRoute(
-                            builder: (context) {
-                              return SignUpPage();
-                            },
-                          ),
+                          Navigator.of(context).push(
+                            CupertinoPageRoute(
+                              builder: (context) {
+                                return SignUpPage();
+                              },
+                            ),
                           );
                         },
                       style: const TextStyle(
