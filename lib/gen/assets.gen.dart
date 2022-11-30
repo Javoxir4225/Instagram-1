@@ -23,10 +23,13 @@ class $AssetsImagesGen {
   const $AssetsImagesGen();
 
   /// File path: assets/images/placeholder.png
-  AssetGenImage get placeholder => const AssetGenImage('assets/images/placeholder.png');
+  AssetGenImage get placeholder =>
+      const AssetGenImage('assets/images/placeholder.png');
+  AssetGenImage get friends => const AssetGenImage('assets/images/friends.jpg');
+  AssetGenImage get family => const AssetGenImage('assets/images/family.jpg');
 
   /// List of all assets
-  List<AssetGenImage> get values => [placeholder];
+  List<AssetGenImage> get values => [placeholder, friends, family];
 }
 
 class Assets {

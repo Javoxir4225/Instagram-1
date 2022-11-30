@@ -1,12 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/gen/colors.gen.dart';
 import 'package:instagram/gen/fonts.gen.dart';
 import 'package:instagram/models/post_model.dart';
+import 'package:instagram/pages/main/camera_page.dart';
 import 'package:instagram/widgets/post/post_item.dart';
 
-class FeedPage extends StatelessWidget {
+class FeedPage extends StatefulWidget {
   FeedPage({super.key});
 
+  @override
+  State<FeedPage> createState() => _FeedPageState();
+}
+
+class _FeedPageState extends State<FeedPage> {
   final items = [
     const PostModel(
         photo:
@@ -43,6 +50,14 @@ class FeedPage extends StatelessWidget {
 
   _buildAppBar() {
     return AppBar(
+      leading: IconButton(
+        splashRadius: 18,
+        icon: const Icon(
+          CupertinoIcons.camera,
+          color: Colors.black,
+        ),
+        onPressed: () {},
+      ),
       centerTitle: true,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
@@ -55,16 +70,22 @@ class FeedPage extends StatelessWidget {
       title: const Text(
         "Instagram",
         style: TextStyle(
+          fontSize: 32,
           fontFamily: FontFamily.billabong,
           color: ColorName.black,
         ),
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                CupertinoPageRoute(builder: (BuildContext context) {
+              return const CameraPage();
+            }));
+          },
           splashRadius: 16,
           icon: const Icon(
-            Icons.camera_alt,
+            Icons.send,
             color: ColorName.black,
           ),
         ),
