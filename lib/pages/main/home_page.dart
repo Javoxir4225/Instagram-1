@@ -7,7 +7,8 @@ import 'package:instagram/pages/main/home/profile_page.dart';
 import 'package:instagram/pages/main/home/search_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final void Function(int index) onTabChanged;
+  const HomePage({super.key, required this.onTabChanged});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
         activeColor: ColorName.purpleRed,
         currentIndex: currentIndex,
         onTap: (value) {
+          widget.onTabChanged(value);
           setState(() {
             currentIndex = value;
           });

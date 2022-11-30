@@ -51,5 +51,7 @@
 	<string>Allow access to photo library</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow access to camera to capture</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>your usage description here</string>
 </dict>
 </plist>

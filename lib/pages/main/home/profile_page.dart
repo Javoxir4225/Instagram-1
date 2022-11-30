@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram/gen/assets.gen.dart';
@@ -15,9 +16,18 @@ class _ProfilePageState extends State<ProfilePage>
     with SingleTickerProviderStateMixin {
   File? image;
   TabController? _tabController;
+  final PageController _pagecontroller = PageController();
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    _tabController?.addListener(() {
+      _pagecontroller.animateToPage(_tabController?.index ?? 0,
+          duration: const Duration(
+            milliseconds: 300,
+          ),
+          curve: Curves.ease);
+      print("------: ${_tabController?.index}");
+    });
     super.initState();
   }
 
@@ -140,12 +150,17 @@ class _ProfilePageState extends State<ProfilePage>
               ),
             ],
           ),
-          TabBarView(
-            controller: _tabController,
+          ExpandablePageView(
+            // controller: _tabController,
+            controller: _pagecontroller,
+            onPageChanged: (value) {
+              _tabController?.animateTo(value, duration: const Duration(milliseconds: 300,),curve: Curves.ease);
+            },
             children: [
               gridViewBuild(),
               Container(
                 width: double.infinity,
+                height: 400,
                 color: Colors.deepOrange,
               )
             ],
