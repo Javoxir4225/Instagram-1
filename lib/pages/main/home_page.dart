@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:instagram/gen/colors.gen.dart';
 import 'package:instagram/pages/main/home/create_post_page.dart';
 import 'package:instagram/pages/main/home/feed_page.dart';
+import 'package:instagram/pages/main/home/profile_page.dart';
+import 'package:instagram/pages/main/home/search_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,7 +27,7 @@ class _HomePageState extends State<HomePage> {
             currentIndex = value;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(
               CupertinoIcons.home,
@@ -61,13 +63,13 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return FeedPage();
       case 1:
-        return Container();
+        return SearchPage();
       case 2:
         return const CreatePostPage();
       case 3:
         return Container();
       case 4:
-        return Container();
+        return ProfilePage();
       default:
         return Container();
     }

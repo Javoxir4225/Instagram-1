@@ -14,11 +14,13 @@ class SplashPage extends StatelessWidget {
         milliseconds: 1500,
       ),
     ).then((value) {
-      Navigator.of(context).pushReplacement(CupertinoPageRoute(
-        builder: (context) {
-          return  LoginPage();
-        },
-      ),);
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(
+          builder: (context) {
+            return LoginPage();
+          },
+        ),
+      );
     });
 
     return Scaffold(
@@ -36,16 +38,17 @@ class SplashPage extends StatelessWidget {
         child: Column(
           children: const [
             Expanded(
-                child: Center(
-              child: Text(
-                "Instagram",
-                style: TextStyle(
-                  fontSize: 45,
-                  color: ColorName.white,
-                  fontFamily: FontFamily.billabong,
+              child: Center(
+                child: Text(
+                  "Instagram",
+                  style: TextStyle(
+                    fontSize: 45,
+                    color: ColorName.white,
+                    fontFamily: FontFamily.billabong,
+                  ),
                 ),
               ),
-            ),),
+            ),
             Text(
               "All rights reserved",
               style: TextStyle(
