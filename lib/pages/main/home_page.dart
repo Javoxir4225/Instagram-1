@@ -8,7 +8,8 @@ import 'package:instagram/pages/main/home/search_page.dart';
 
 class HomePage extends StatefulWidget {
   final void Function(int index) onTabChanged;
-  const HomePage({super.key, required this.onTabChanged});
+  PageController controller;
+   HomePage({super.key, required this.onTabChanged,required this.controller});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
-              CupertinoIcons.home,
+            Icons.home,
             ),
           ),
           BottomNavigationBarItem(
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              CupertinoIcons.profile_circled,
+              CupertinoIcons.person_alt_circle,
             ),
           ),
         ],
@@ -63,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   getPage() {
     switch (currentIndex) {
       case 0:
-        return FeedPage();
+        return FeedPage(controller: widget.controller,);
       case 1:
         return SearchPage();
       case 2:

@@ -1,8 +1,15 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/gen/assets.gen.dart';
 import 'package:instagram/gen/colors.gen.dart';
+import 'package:instagram/widgets/comentary/comentary.dart';
+import 'package:instagram/widgets/list_tile/list_tile.dart';
 import 'package:like_button/like_button.dart';
+import 'package:lottie/lottie.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PostItem extends StatefulWidget {
   final String? caption;
@@ -15,30 +22,27 @@ class PostItem extends StatefulWidget {
 
 class _PostItemState extends State<PostItem> {
   bool liked = true;
+  bool liked1 = true;
+  int onTap = 0;
+  bool send = true;
+  bool send1 = true;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: 8,
-        ),
         Row(
           children: [
-            const SizedBox(
-              width: 16,
-            ),
+            const SizedBox(width: 12),
             ClipRRect(
-              borderRadius: BorderRadius.circular(100),
+              borderRadius: BorderRadius.circular(80),
               child: Assets.icons.avatar.image(
-                width: 48,
-                height: 48,
+                width: 40,
+                height: 40,
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(
-              width: 12,
-            ),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +50,7 @@ class _PostItemState extends State<PostItem> {
                   Text(
                     "Username",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: ColorName.black,
                     ),
@@ -54,92 +58,155 @@ class _PostItemState extends State<PostItem> {
                   Text(
                     "November 28, 2022",
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: ColorName.black,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(
-              width: 12,
-            ),
+            const SizedBox(width: 12),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Share.share(widget.image ?? "");
+              },
               icon: const Icon(
-                Icons.more_horiz,
+                Icons.share_outlined,
               ),
               splashRadius: 16,
             ),
           ],
         ),
-        const SizedBox(
-          height: 12,
-        ),
+        const SizedBox(height: 6),
         widget.image == null
-            ? Assets.images.placeholder.image(
-                width: double.infinity,
-                height: 300,
-                fit: BoxFit.cover,
+            ? GestureDetector(
+                onTap: () {
+                   setState(() {
+                    onTap++;
+                    Timer(
+                      const Duration(milliseconds: 500),
+                      () {
+                        setState(() {
+                          onTap = 0;
+                        });
+                      },
+                    );
+                    if (onTap == 2) {
+                      if (liked) {
+                        liked = !liked;
+                      }
+                      onTap = 0;
+                      liked1 = false;
+                      Timer(
+                        const Duration(milliseconds: 1000),
+                        () {
+                          setState(() {
+                            liked1 = true;
+                          });
+                        },
+                      );
+                    }
+                  });
+                },
+                child: Assets.images.placeholder.image(
+                  width: double.infinity,
+                  height: 350,
+                  fit: BoxFit.cover,
+                ),
               )
-            : CachedNetworkImage(
-                imageUrl: widget.image!,
-                width: double.infinity,
-                height: 300,
-                fit: BoxFit.cover,
+            : GestureDetector(
+                onTap: () {
+                  setState(() {
+                    onTap++;
+                    Timer(
+                      const Duration(milliseconds: 500),
+                      () {
+                        setState(() {
+                          onTap = 0;
+                        });
+                      },
+                    );
+                    if (onTap == 2) {
+                      if (liked) {
+                        liked = !liked;
+                      }
+                      onTap = 0;
+                      liked1 = false;
+                      Timer(
+                        const Duration(milliseconds: 1000),
+                        () {
+                          setState(() {
+                            liked1 = true;
+                          });
+                        },
+                      );
+                    }
+                  });
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: widget.image!,
+                      width: double.infinity,
+                      height: 350,
+                      fit: BoxFit.cover,
+                    ),
+                    liked1
+                        ? const SizedBox()
+                        : Lottie.asset("assets/lottie/like_button.json"),
+                  ],
+                ),
               ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Row(
             children: [
-              const LikeButton(
+              LikeButton(
                 size: 26,
+                isLiked: liked ? false : true,
+                onTap: (isLiked) async {
+                  setState(() {
+                    liked = !liked;
+                  });
+                },
               ),
-              // IconButton(
-              //   onPressed: () {
-              //     setState(() {
-              //       liked != liked;
-              //       print('liked = $liked');
-              //     });
-              //   },
-              //   constraints: const BoxConstraints(maxHeight: 36, maxWidth: 36),
-              //   splashRadius: 16,
-              //   iconSize: 24,
-              //   icon: liked == true
-              //       ? const Icon(
-              //           Icons.favorite_border,
-              //           color: Colors.black,
-              //         )
-              //       : const Icon(
-              //           Icons.favorite,
-              //           color: Colors.red,
-              //         ),
-              // ),
               IconButton(
                 onPressed: () {},
                 constraints: const BoxConstraints(maxHeight: 36, maxWidth: 36),
                 splashRadius: 16,
                 iconSize: 24,
-                icon: const Icon(
-                  Icons.message_outlined,
-                  color: ColorName.black,
+                icon: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        builder: (context) =>  Comentary(),
+                      ),
+                    );
+                  },
+                  child: const Icon(
+                    CupertinoIcons.chat_bubble,
+                    color: ColorName.black,
+                  ),
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  buildShowModilButton();
+                },
                 constraints: const BoxConstraints(maxHeight: 36, maxWidth: 36),
                 splashRadius: 16,
                 icon: const Icon(
-                  Icons.near_me,
+                  CupertinoIcons.paperplane,
                   color: ColorName.black,
                 ),
               ),
-              const SizedBox(width: 220),
+              const Expanded(child: SizedBox()),
               IconButton(
                 splashRadius: 16,
                 alignment: Alignment.centerRight,
                 onPressed: () {},
-                icon: const Icon(Icons.bookmark_border_outlined),
+                icon: const Icon(CupertinoIcons.bookmark),
               ),
             ],
           ),
@@ -192,6 +259,74 @@ class _PostItemState extends State<PostItem> {
           // child: Text(caption ?? "No caption!"),
         ),
       ],
+    );
+  }
+
+  buildShowModilButton() {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.6,
+        minChildSize: 0.6,
+        maxChildSize: 0.95,
+        builder: (context, scrollController) => Container(
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(16),
+            ),
+          ),
+          child: Column(
+            children: [
+              const Icon(
+                Icons.horizontal_rule_sharp,
+                size: 36,
+              ),
+              Container(
+                height: 40,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                child: TextField(
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    hintText: "Search",
+                    prefixIcon: const Icon(CupertinoIcons.search),
+                    fillColor: Colors.grey.shade400,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemBuilder: (context, index) => BuildListTile(
+                    send: send,
+                  ),
+                  itemCount: 15,
+                ),
+              ),
+            ],
+          ),
+        ),
+        //   bottomSheet: send1
+        //       ? null
+        //       : ElevatedButton(
+        //           onPressed: () {
+
+        //           },
+        //           style: ElevatedButton.styleFrom(
+        //             fixedSize: const Size(double.maxFinite, 48),
+        //           ),
+        //           child: Text("Ready"),
+        //         ),
+        // ),
+      ),
     );
   }
 }

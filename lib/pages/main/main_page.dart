@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram/pages/main/camera_page.dart';
-import 'package:instagram/pages/main/direct_page.dart';
+import 'package:instagram/pages/main/direct/direct_page.dart';
 import 'package:instagram/pages/main/home_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -33,8 +33,8 @@ class _MainPageState extends State<MainPage> {
                 currentPhysics = const NeverScrollableScrollPhysics();
               });
             }
-          }),
-          const DirectPage(),
+          },controller: controller),
+           DirectPage(controller: controller),
         ],
       ),
     );

@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
   final formState = GlobalKey<FormState>();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
-
+  int sum = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,27 +51,65 @@ class LoginPage extends StatelessWidget {
                     LoginTextfield(
                       hint: "Email",
                       controller: emailCtrl,
-                      validator: (value) {},
+                      validator: (value) {
+                        if (value?.isNotEmpty == true) {
+                          if (value?.contains("@") == false) {
+                            return "Error";
+                          }
+                        }
+                      },
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 12,
                     ),
                     LoginTextfield(
                       hint: "Password",
                       isObsecure: true,
                       controller: passwordCtrl,
-                      validator: (value) {},
+                      validator: (value) {
+                        if (value?.isNotEmpty == true) {
+                          if (value![0].codeUnits[0] >= 65 &&
+                              value[0].codeUnits[0] <= 90) {
+                          } else {
+                            return "Error";
+                          }
+                        }
+                        if (value?.isNotEmpty == true) {
+                          if (value?.contains("!") == false) {
+                            return "Error";
+                          }
+                        }
+                        if (value?.isNotEmpty == true) {
+                          for (var i = 0; i < value!.length; i++) {
+                            if (int.tryParse(value[i]) != null) {
+                              sum++;
+                            }
+                          }
+                          if (sum >= 3) {
+                            // return "";
+                          } else {
+                            return "Error";
+                          }
+                        } else {
+                          sum = 0;
+                        }
+                      },
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 12,
                     ),
                     OutlinedButton(
                         onPressed: () {
-                          Navigator.of(context).push(CupertinoPageRoute(
-                            builder: (context) {
-                              return MainPage();
-                            },
-                          ),);
+                          if (emailCtrl.text.isNotEmpty &&
+                              passwordCtrl.text.isNotEmpty) {
+                            Navigator.of(context).pushReplacement(
+                              CupertinoPageRoute(
+                                builder: (context) {
+                                  return const MainPage();
+                                },
+                              ),
+                            );
+                          }
                         },
                         style: OutlinedButton.styleFrom(
                             foregroundColor: ColorName.white,
@@ -106,7 +144,7 @@ class LoginPage extends StatelessWidget {
                       text: "Sign up",
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.of(context).push(
+                          Navigator.of(context).pushReplacement(
                             CupertinoPageRoute(
                               builder: (context) {
                                 return SignUpPage();

@@ -24,6 +24,7 @@ class LoginTextfield extends StatelessWidget {
           ),
           fillColor: ColorName.white.withOpacity(0.3),
           filled: true,
+          errorStyle: const TextStyle(color: ColorName.redOrange,),
           hintText: hint),
     );
   }

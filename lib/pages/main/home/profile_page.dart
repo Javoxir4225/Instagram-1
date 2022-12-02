@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:expandable_page_view/expandable_page_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram/gen/assets.gen.dart';
@@ -36,6 +37,30 @@ class _ProfilePageState extends State<ProfilePage>
     return Scaffold(
       appBar: buildAppbar(),
       body: buildBody(),
+      endDrawer: Drawer(
+        width: 250,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Expanded(child: SizedBox()),
+            const Text(
+              "  Profily Name..........",
+              style: TextStyle(fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            buildTextbottonIcon(Icons.replay_rounded,"Archive"),
+            buildTextbottonIcon(Icons.history_toggle_off_outlined,"Your Activity"),
+            buildTextbottonIcon(CupertinoIcons.qrcode_viewfinder,"Nametag"),
+            buildTextbottonIcon(CupertinoIcons.bookmark,"Saved"),
+            buildTextbottonIcon(Icons.format_list_bulleted_outlined,"Close Friends"),
+            buildTextbottonIcon(CupertinoIcons.person_badge_plus_fill,"Discover People"),
+            buildTextbottonIcon(Icons.facebook,"Open Facebook"),
+            const Expanded(child: SizedBox()),
+            const Expanded(child: SizedBox()),
+            buildTextbottonIcon(CupertinoIcons.settings,"Settings"),
+          ],
+        ),
+      ),
     );
   }
 
@@ -78,11 +103,11 @@ class _ProfilePageState extends State<ProfilePage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 20),
+                const Expanded(child: SizedBox()),
                 buildTop(label: '54', text: 'Posts'),
-                const SizedBox(width: 28),
+                const Expanded(child: SizedBox()),
                 buildTop(label: '834', text: 'Followers'),
-                const SizedBox(width: 28),
+                const Expanded(child: SizedBox()),
                 buildTop(label: '204', text: 'Following'),
               ],
             ),
@@ -154,7 +179,11 @@ class _ProfilePageState extends State<ProfilePage>
             // controller: _tabController,
             controller: _pagecontroller,
             onPageChanged: (value) {
-              _tabController?.animateTo(value, duration: const Duration(milliseconds: 300,),curve: Curves.ease);
+              _tabController?.animateTo(value,
+                  duration: const Duration(
+                    milliseconds: 300,
+                  ),
+                  curve: Curves.ease);
             },
             children: [
               gridViewBuild(),
@@ -189,6 +218,7 @@ class _ProfilePageState extends State<ProfilePage>
   buildAppbar() {
     return AppBar(
       automaticallyImplyLeading: false,
+      foregroundColor: Colors.black,
       backgroundColor: Colors.transparent,
       elevation: 0,
       centerTitle: true,
@@ -258,5 +288,13 @@ class _ProfilePageState extends State<ProfilePage>
         ),
       ],
     );
+  }
+  
+  buildTextbottonIcon(IconData icon,String s) {
+    return TextButton.icon(
+              onPressed: () {},
+              icon:  Icon(icon,color: Colors.black,size: 28,),
+              label:  Text(s,style: const TextStyle(color: Colors.black,fontSize: 20),),
+            );
   }
 }
