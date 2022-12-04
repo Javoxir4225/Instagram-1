@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/gen/assets.gen.dart';
 import 'package:instagram/gen/colors.gen.dart';
+import 'package:instagram/models/post_model.dart';
+import 'package:instagram/servis/db_servise.dart';
 import 'package:instagram/widgets/comentary/comentary.dart';
 import 'package:instagram/widgets/list_tile/list_tile.dart';
 import 'package:like_button/like_button.dart';
@@ -25,7 +27,19 @@ class _PostItemState extends State<PostItem> {
   bool liked1 = true;
   int onTap = 0;
   bool send = true;
-  bool send1 = true;
+  List<PostModel> profile = [];
+  void onPostAdded(PostModel post) {
+    setState(() {
+      profile.add(post);
+    });
+  }
+
+  @override
+  void initState() {
+    DBService.getOnAdded(onPostAdded);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,11 +50,13 @@ class _PostItemState extends State<PostItem> {
             const SizedBox(width: 12),
             ClipRRect(
               borderRadius: BorderRadius.circular(80),
-              child: Assets.icons.avatar.image(
-                width: 40,
-                height: 40,
-                fit: BoxFit.cover,
-              ),
+              child: profile.isNotEmpty == true
+                  ? Image.network(profile[profile.length - 1].image!,height: 50,width: 50,)
+                  : Assets.icons.avatar.image(
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -81,7 +97,7 @@ class _PostItemState extends State<PostItem> {
         widget.image == null
             ? GestureDetector(
                 onTap: () {
-                   setState(() {
+                  setState(() {
                     onTap++;
                     Timer(
                       const Duration(milliseconds: 500),
@@ -180,7 +196,7 @@ class _PostItemState extends State<PostItem> {
                   onTap: () {
                     Navigator.of(context).push(
                       CupertinoPageRoute(
-                        builder: (context) =>  Comentary(),
+                        builder: (context) => Comentary(),
                       ),
                     );
                   },

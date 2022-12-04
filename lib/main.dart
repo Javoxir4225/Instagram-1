@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/pages/splash_page.dart';
+import 'package:instagram/pages/main/main_page.dart';
 
 late List<CameraDescription> cameras;
 
@@ -8,8 +9,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   cameras = await availableCameras();
-  print(cameras);
-
+  // print(cameras);
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashPage(),
+      home:  MainPage(),
     );
   }
 }

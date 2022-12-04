@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/gen/assets.gen.dart';
 import 'package:instagram/gen/colors.gen.dart';
-import 'package:instagram/pages/main/direct/chat_chernovek.dart';
 import 'package:instagram/pages/main/direct/mesenger_chat.dart';
 
 class DirectPage extends StatelessWidget {

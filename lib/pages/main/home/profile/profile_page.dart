@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram/gen/assets.gen.dart';
+import 'package:instagram/models/post_model.dart';
+import 'package:instagram/pages/main/home/profile/edit_profile.dart';
+import 'package:instagram/servis/db_servise.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -18,6 +21,14 @@ class _ProfilePageState extends State<ProfilePage>
   File? image;
   TabController? _tabController;
   final PageController _pagecontroller = PageController();
+  List<PostModel> profile = [];
+
+  void onPostAdded(PostModel post) {
+    setState(() {
+      profile.add(post);
+    });
+  }
+
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
@@ -27,8 +38,9 @@ class _ProfilePageState extends State<ProfilePage>
             milliseconds: 300,
           ),
           curve: Curves.ease);
-      print("------: ${_tabController?.index}");
     });
+    DBService.getOnAdded(onPostAdded);
+    print("++++++++++++++++++++++++++++++++++++++++++++");
     super.initState();
   }
 
@@ -48,16 +60,19 @@ class _ProfilePageState extends State<ProfilePage>
               style: TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 12),
-            buildTextbottonIcon(Icons.replay_rounded,"Archive"),
-            buildTextbottonIcon(Icons.history_toggle_off_outlined,"Your Activity"),
-            buildTextbottonIcon(CupertinoIcons.qrcode_viewfinder,"Nametag"),
-            buildTextbottonIcon(CupertinoIcons.bookmark,"Saved"),
-            buildTextbottonIcon(Icons.format_list_bulleted_outlined,"Close Friends"),
-            buildTextbottonIcon(CupertinoIcons.person_badge_plus_fill,"Discover People"),
-            buildTextbottonIcon(Icons.facebook,"Open Facebook"),
+            buildTextbottonIcon(Icons.replay_rounded, "Archive"),
+            buildTextbottonIcon(
+                Icons.history_toggle_off_outlined, "Your Activity"),
+            buildTextbottonIcon(CupertinoIcons.qrcode_viewfinder, "Nametag"),
+            buildTextbottonIcon(CupertinoIcons.bookmark, "Saved"),
+            buildTextbottonIcon(
+                Icons.format_list_bulleted_outlined, "Close Friends"),
+            buildTextbottonIcon(
+                CupertinoIcons.person_badge_plus_fill, "Discover People"),
+            buildTextbottonIcon(Icons.facebook, "Open Facebook"),
             const Expanded(child: SizedBox()),
             const Expanded(child: SizedBox()),
-            buildTextbottonIcon(CupertinoIcons.settings,"Settings"),
+            buildTextbottonIcon(CupertinoIcons.settings, "Settings"),
           ],
         ),
       ),
@@ -77,28 +92,18 @@ class _ProfilePageState extends State<ProfilePage>
               children: [
                 Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      pickImage();
-                    },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(width: 2.5, color: Colors.black26),
+                    ),
                     child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(width: 2.5, color: Colors.black26),
-                      ),
-                      child: Container(
-                        margin: const EdgeInsets.all(3),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: image == null
-                                ? Assets.icons.avatar
-                                    .image(height: 80, width: 80)
-                                : Image.file(
-                                    image!,
-                                    fit: BoxFit.cover,
-                                    height: 80,
-                                    width: 80,
-                                  )),
+                      margin: const EdgeInsets.all(3),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: profile.isNotEmpty==true? profile[0].image == null
+                            ? Assets.icons.avatar.image(width: 80, height: 80)
+                            : Image.network(profile[profile.length-1].image!,fit: BoxFit.cover,):Assets.icons.avatar.image(),
                       ),
                     ),
                   ),
@@ -113,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage>
             ),
           ),
           const SizedBox(height: 6),
-          const Text(
+           const Text(
             'Sherali Yodgorov',
             style: TextStyle(
               fontSize: 16,
@@ -130,7 +135,13 @@ class _ProfilePageState extends State<ProfilePage>
           OutlinedButton(
             style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 36)),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  builder: (context) => EditProfile(),
+                ),
+              );
+            },
             child: const Text(
               'Edit Profile',
               style:
@@ -289,12 +300,19 @@ class _ProfilePageState extends State<ProfilePage>
       ],
     );
   }
-  
-  buildTextbottonIcon(IconData icon,String s) {
+
+  buildTextbottonIcon(IconData icon, String s) {
     return TextButton.icon(
-              onPressed: () {},
-              icon:  Icon(icon,color: Colors.black,size: 28,),
-              label:  Text(s,style: const TextStyle(color: Colors.black,fontSize: 20),),
-            );
+      onPressed: () {},
+      icon: Icon(
+        icon,
+        color: Colors.black,
+        size: 28,
+      ),
+      label: Text(
+        s,
+        style: const TextStyle(color: Colors.black, fontSize: 20),
+      ),
+    );
   }
 }

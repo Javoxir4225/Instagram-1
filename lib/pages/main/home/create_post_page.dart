@@ -6,7 +6,7 @@ import 'package:instagram/gen/colors.gen.dart';
 import 'package:instagram/gen/fonts.gen.dart';
 
 class CreatePostPage extends StatefulWidget {
-  const CreatePostPage({super.key});
+   CreatePostPage({super.key});
 
   @override
   State<CreatePostPage> createState() => _CreatePostPageState();
@@ -19,45 +19,49 @@ class _CreatePostPageState extends State<CreatePostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.grey.shade300,
-            width: double.infinity,
-            height: 400,
-            child: image == null
-                ? GestureDetector(
-                    onTap: () {
-                      pickImage();
-                    },
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.grey.shade500,
-                      size: 56,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              color: Colors.grey.shade300,
+              width: double.infinity,
+              height: 400,
+              child: image == null
+                  ? GestureDetector(
+                      onTap: () {
+                        pickImage();
+                      },
+                      child: Icon(
+                        Icons.add_a_photo,
+                        color: Colors.grey.shade500,
+                        size: 56,
+                      ),
+                    )
+                  : Image.file(
+                      image!,
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
                     ),
-                  )
-                : Image.file(
-                    image!,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: TextField(
-              maxLines: 100,
-              minLines: 1,
-              keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
-                hintText: "Caption",
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+             const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextField(
+                maxLines: 100,
+                minLines: 1,
+                
+             
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                  hintText: "Caption",
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -74,6 +78,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
         style: TextStyle(
           fontFamily: FontFamily.billabong,
           color: ColorName.black,
+          fontSize: 28
         ),
       ),
       actions: [
@@ -88,7 +93,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
       ],
     );
   }
-
   void pickImage() async {
     final result = await ImagePicker().pickImage(source: ImageSource.gallery);
 

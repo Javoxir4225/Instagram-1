@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pdp.instagram_g3">
+    package="com.ins.instagram_g3">
    <application
         android:label="Instagram_G3"
         android:name="${applicationName}"

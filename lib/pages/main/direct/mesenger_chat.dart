@@ -26,6 +26,7 @@ class _MyChatState extends State<MyChat> {
 
   @override
   void initState() {
+  
     // getList();
     textController.addListener(() {
       if (textController.text.isEmpty) {
@@ -142,44 +143,40 @@ class _MyChatState extends State<MyChat> {
                   : Alignment.centerLeft,
               nip: message.isAligment
                   ? BubbleNip.rightBottom
-                  : BubbleNip.leftTop,
-              nipWidth: 16,
-              // nipHeight: 20,
+                  : BubbleNip.leftBottom,
+              nipWidth: 8,
+              nipHeight: 16,
               radius: const Radius.circular(20),
               margin: const BubbleEdges.only(top: 10),
               color: message.isAligment
-                  ? Colors.green
+                  ? Colors.purple
                   : const Color.fromARGB(255, 28, 90, 139),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+
                 children: [
                   Text(
                     message.tex,
                     textAlign: TextAlign.right,
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
                   ),
                   const SizedBox(width: 4),
-                  message.isAligment
-                      ? const Icon(
-                          Icons.done_all,
-                          color: Colors.white,
-                        )
-                      : const SizedBox()
+                  Text(
+                    "${message.date.hour.toString()}:${message.date.minute.toString()}",
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                  // const SizedBox(width: 4),
+                  // message.isAligment
+                  //     ? const Icon(
+                  //         Icons.done_all,
+                  //         color: Colors.white,
+                  //       )
+                  //     : const SizedBox()
                 ],
               ),
             ),
-            // Align(
-            //   alignment: Alignment.centerRight,
-            //   child: Card(
-            //     elevation: 4,
-            //     color: Colors.black87,
-            //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            //     child: Padding(
-            //       padding: const EdgeInsets.all(12),
-            //       child: Text(message.tex,style: const TextStyle(color: Colors.white),),
-            //     ),
-            //   ),
-            // ),
           ),
         ),
         TextField(
@@ -215,19 +212,36 @@ class _MyChatState extends State<MyChat> {
                   : Center(
                       child: GestureDetector(
                         onTap: () {
+
+                          final date = DateTime.now();
+                          date
+                            ..subtract(Duration(
+                                hours: date.hour, minutes: date.minute))
+                            ..add(const Duration(hours: 23, minutes: 59));
                           setState(() {
-                            messages.add(Masseges(
-                                tex: textController.text, isAligment: true));
-                            // savedList();
+                            messages.add(
+                              Masseges(
+                                tex: textController.text,
+                                isAligment: true,
+                                date: date,
+                              ),
+                            );
+                           
+                          // savedList();
                             textLabel = textController.text;
                             textController.text = "";
-                          });
+                              });
                           Timer(
                             const Duration(milliseconds: 1000),
                             () {
                               setState(() {
-                                messages.add(Masseges(
-                                    tex: textLabel, isAligment: false));
+                                messages.add(
+                                  Masseges(
+                                    tex: textLabel,
+                                    isAligment: false,
+                                    date: date,
+                                  ),
+                                );
                               });
                             },
                           );
@@ -257,6 +271,6 @@ class _MyChatState extends State<MyChat> {
 class Masseges {
   final String tex;
   final bool isAligment;
-  // final DateTime date;
-  Masseges({required this.tex, required this.isAligment});
+  final DateTime date;
+  Masseges({required this.tex, required this.isAligment, required this.date});
 }

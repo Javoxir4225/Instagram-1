@@ -22,7 +22,7 @@ class SignUpPage extends StatelessWidget {
       body: Container(
         padding: const EdgeInsets.all(20),
         width: double.infinity,
-        height: double.infinity,
+        height: double.maxFinite,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [ColorName.purpleRed, ColorName.purple],
@@ -124,64 +124,68 @@ class SignUpPage extends StatelessWidget {
                       height: 12,
                     ),
                     OutlinedButton(
-                        onPressed: () {
-                          if (emailCtrl.text.isNotEmpty &&
-                              passwordCtrl.text.isNotEmpty &&
-                              fullnamelCtrl.text.isNotEmpty &&
-                              confirmpasswordCtrl.text.isNotEmpty) {
-                            Navigator.of(context).pushReplacement(
-                              CupertinoPageRoute(
-                                builder: (context) => const MainPage(),
-                              ),
-                            );
-                          }
-                        },
-                        style: OutlinedButton.styleFrom(
-                            foregroundColor: ColorName.white,
-                            minimumSize: const Size(double.infinity, 48),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                6,
-                              ),
+                      onPressed: () {
+                        if (emailCtrl.text.isNotEmpty &&
+                            passwordCtrl.text.isNotEmpty &&
+                            fullnamelCtrl.text.isNotEmpty &&
+                            confirmpasswordCtrl.text.isNotEmpty) {
+                          Navigator.of(context).pushReplacement(
+                            CupertinoPageRoute(
+                              builder: (context) => const MainPage(),
                             ),
-                            side: const BorderSide(
-                                color: ColorName.white, width: 1)),
-                        child: const Text(
-                          "Sign up",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: ColorName.white,
+                          );
+                        }
+                      },
+                      style: OutlinedButton.styleFrom(
+                          foregroundColor: ColorName.white,
+                          minimumSize: const Size(double.infinity, 48),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              6,
+                            ),
                           ),
-                        ))
+                          side: const BorderSide(
+                              color: ColorName.white, width: 1)),
+                      child: const Text(
+                        "Sign up",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: ColorName.white,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
+            // const Expanded(child: SizedBox()),
+            // const Expanded(child: SizedBox()),
             RichText(
               text: TextSpan(
-                  text: "Already have an account?  ",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: ColorName.white,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: "Sign In",
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.of(context).pushReplacement(
-                            CupertinoPageRoute(
-                              builder: (context) => LoginPage(),
-                            ),
-                          );
-                        },
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: ColorName.white,
-                      ),
+                text: "Already have an account?  ",
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: ColorName.white,
+                ),
+                children: [
+                  TextSpan(
+                    text: "Sign In",
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.of(context).pushReplacement(
+                          CupertinoPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      },
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: ColorName.white,
                     ),
-                  ]),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
