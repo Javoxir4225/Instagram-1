@@ -6,13 +6,16 @@ import 'package:grouped_list/grouped_list.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:instagram/gen/assets.gen.dart';
+import 'package:instagram/models/post_model.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class MyChat extends StatefulWidget {
   MyChat(
-      {super.key, required this.title, required this.image1, required this.s});
+      {super.key, required this.title, required this.profiles, required this.s});
+  List<PostModel> profiles = [];
   String? title;
-  String? image1;
   String? s;
   @override
   State<MyChat> createState() => _MyChatState();
@@ -77,7 +80,7 @@ class _MyChatState extends State<MyChat> {
             child: CircleAvatar(
               backgroundColor: Colors.grey,
               radius: 18,
-              backgroundImage: Assets.icons.avatar.provider(),
+              backgroundImage: widget.profiles.isNotEmpty?  NetworkImage(widget.profiles[widget.profiles.length-1].image!):Assets.icons.avatar.provider(),
             ),
           ),
         ),
@@ -127,15 +130,16 @@ class _MyChatState extends State<MyChat> {
               // message.date.month,
               // message.date.day,
             ),
-            groupHeaderBuilder: (Masseges message) => const SizedBox(
-                // height: 40,
-                // child: Card(
-                //   color: Colors.blue,
-                //   child: Padding(
-                //     padding: EdgeInsets.all(8),
-                //      child: Text(message.date.day.toString()),
-                //   ),
-                // ),
+            groupHeaderBuilder: (Masseges message) =>  SizedBox(
+                height: 40,
+                child: Card(
+                  color: Colors.black,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(Jiffy().yMMMMd,style: const TextStyle(color: Colors.white),),
+                    //  child: Text(DateFormat("yyyy-MM-dd HH:mm").format(DateTime.now()),
+                  ),
+                ),
                 ),
             itemBuilder: (context, Masseges message) => Bubble(
               alignment: message.isAligment
@@ -163,7 +167,7 @@ class _MyChatState extends State<MyChat> {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    "${message.date.hour.toString()}:${message.date.minute.toString()}",
+                    message.date,
                     textAlign: TextAlign.right,
                     style: const TextStyle(color: Colors.white, fontSize: 12),
                   ),
@@ -213,11 +217,7 @@ class _MyChatState extends State<MyChat> {
                       child: GestureDetector(
                         onTap: () {
 
-                          final date = DateTime.now();
-                          date
-                            ..subtract(Duration(
-                                hours: date.hour, minutes: date.minute))
-                            ..add(const Duration(hours: 23, minutes: 59));
+                          final date = DateFormat("HH:mm").format(DateTime.now());
                           setState(() {
                             messages.add(
                               Masseges(
@@ -271,6 +271,6 @@ class _MyChatState extends State<MyChat> {
 class Masseges {
   final String tex;
   final bool isAligment;
-  final DateTime date;
+  final String date;
   Masseges({required this.tex, required this.isAligment, required this.date});
 }

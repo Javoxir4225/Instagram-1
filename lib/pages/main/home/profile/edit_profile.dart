@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:instagram/gen/assets.gen.dart';
 import 'package:instagram/models/post_model.dart';
 import 'package:instagram/servis/db_servise.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:lottie/lottie.dart';
 import 'package:intl/intl.dart';
 
@@ -46,7 +47,8 @@ class _EditProfileState extends State<EditProfile> {
             child: TextButton(
               onPressed:isImage == false? () async{
                   final post = PostModel(
-                  id: DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now()),
+                    id: Jiffy().format("MMMM do yyyy, h:mm:ss a"),
+                  // id: DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now()),
                   fullname: "Salohiddin");
               final res = await DBService.createProfile(post, image);
            

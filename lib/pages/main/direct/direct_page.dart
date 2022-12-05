@@ -4,19 +4,41 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/gen/assets.gen.dart';
 import 'package:instagram/gen/colors.gen.dart';
+import 'package:instagram/models/post_model.dart';
 import 'package:instagram/pages/main/direct/mesenger_chat.dart';
+import 'package:instagram/servis/db_servise.dart';
 
-class DirectPage extends StatelessWidget {
+class DirectPage extends StatefulWidget {
   PageController controller;
   DirectPage({super.key, required this.controller});
+
+  @override
+  State<DirectPage> createState() => _DirectPageState();
+}
+
+class _DirectPageState extends State<DirectPage> {
   // String s = "${Random().nextInt(59) + 1}m ago";
+  List<PostModel> profile = [];
+
+  void onAdded(PostModel profil) {
+    setState(() {
+      profile.add(profil);
+    });
+  }
+
+  @override
+  void initState() {
+    DBService.getOnAdded(onAdded);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            controller.previousPage(
+            widget.controller.previousPage(
               duration: const Duration(milliseconds: 500),
               curve: Curves.ease,
             );
@@ -61,7 +83,9 @@ class DirectPage extends StatelessWidget {
                       backgroundColor: Colors.green,
                       child: CircleAvatar(
                         radius: 25,
-                        backgroundImage: Assets.icons.avatar.provider(),
+                        backgroundImage: profile.isNotEmpty == false
+                            ? Assets.icons.avatar.provider()
+                            : NetworkImage(profile[profile.length - 1].image!),
                       ),
                     ),
                     onTap: () {
@@ -70,7 +94,7 @@ class DirectPage extends StatelessWidget {
                           // builder: (context) => const Chernovek(),
                           builder: (context) => MyChat(
                             title: "Name",
-                            image1: Assets.icons.avatar.provider().toString(),
+                            profiles: profile,
                             s: "${Random().nextInt(59) + 1}m ago",
                           ),
                         ),

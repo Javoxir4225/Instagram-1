@@ -19,7 +19,9 @@ class MyStoryPage extends StatefulWidget {
 
 class _MyStoryPageState extends State<MyStoryPage> {
   final controller = StoryController();
+  final textController = TextEditingController();
   bool send = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,14 +29,13 @@ class _MyStoryPageState extends State<MyStoryPage> {
       body: Stack(
         children: [
           StoryView(
-            storyItems: List.generate(
-              widget.item.length,
-              (index) => StoryItem.pageImage(
+            storyItems: [
+              StoryItem.pageImage(
                 url: widget.image!,
                 controller: controller,
                 imageFit: BoxFit.cover,
               ),
-            ),
+            ],
             controller: controller,
             inline: false,
             repeat: false,
@@ -80,6 +81,7 @@ class _MyStoryPageState extends State<MyStoryPage> {
             Expanded(
               child: TextField(
                 // autofocus: true,
+
                 decoration: InputDecoration(
                   hintText: "Send Message",
                   isCollapsed: true,
@@ -103,7 +105,9 @@ class _MyStoryPageState extends State<MyStoryPage> {
             ),
             IconButton(
               onPressed: () {
-                buildShowModilButton();
+                setState(() {
+                  textController.text = "";
+                });
               },
               icon: const Icon(
                 CupertinoIcons.paperplane,
@@ -113,7 +117,7 @@ class _MyStoryPageState extends State<MyStoryPage> {
             ),
             IconButton(
               onPressed: () {
-                Share.share(widget.image!); 
+                Share.share(widget.image!);
               },
               icon: const Icon(
                 Icons.share_outlined,
@@ -123,74 +127,6 @@ class _MyStoryPageState extends State<MyStoryPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  buildShowModilButton() {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.6,
-        minChildSize: 0.6,
-        maxChildSize: 0.95,
-        builder: (context, scrollController) => Container(
-          decoration: BoxDecoration(
-            color: Colors.grey.shade300,
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(16),
-            ),
-          ),
-          child: Column(
-            children: [
-              const Icon(
-                Icons.horizontal_rule_sharp,
-                size: 36,
-              ),
-              Container(
-                height: 40,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                child: TextField(
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.zero,
-                    hintText: "Search",
-                    prefixIcon: const Icon(CupertinoIcons.search),
-                    fillColor: Colors.grey.shade400,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  controller: scrollController,
-                  itemBuilder: (context, index) => BuildListTile(
-                    send: send,
-                  ),
-                  itemCount: 15,
-                ),
-              ),
-            ],
-          ),
-        ),
-        //   bottomSheet: send1
-        //       ? null
-        //       : ElevatedButton(
-        //           onPressed: () {
-
-        //           },
-        //           style: ElevatedButton.styleFrom(
-        //             fixedSize: const Size(double.maxFinite, 48),
-        //           ),
-        //           child: Text("Ready"),
-        //         ),
-        // ),
       ),
     );
   }

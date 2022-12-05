@@ -6,7 +6,7 @@ import 'package:instagram/models/post_model.dart';
 import 'package:instagram/pages/main/home/create_post_page.dart';
 import 'package:instagram/pages/main/home/feed_page.dart';
 import 'package:instagram/pages/main/home/profile/profile_page.dart';
-import 'package:instagram/pages/main/home/search_page.dart';
+import 'package:instagram/pages/main/home/profile/search/search_page.dart';
 import 'package:instagram/servis/db_servise.dart';
 
 class HomePage extends StatefulWidget {
@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return FeedPage(controller: widget.controller,);
       case 1:
-        return const SearchPage();
+        return const SearchPage();  
       case 2:
         return  CreatePostPage();
       case 3:

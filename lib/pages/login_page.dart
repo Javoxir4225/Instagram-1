@@ -8,12 +8,22 @@ import 'package:instagram/widgets/text_fields/login_text_field.dart';
 
 import '../gen/fonts.gen.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final formState = GlobalKey<FormState>();
+
   final emailCtrl = TextEditingController();
+
   final passwordCtrl = TextEditingController();
+
   int sum = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

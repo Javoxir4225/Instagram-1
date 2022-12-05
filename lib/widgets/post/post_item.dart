@@ -28,6 +28,7 @@ class _PostItemState extends State<PostItem> {
   int onTap = 0;
   bool send = true;
   List<PostModel> profile = [];
+  
   void onPostAdded(PostModel post) {
     setState(() {
       profile.add(post);
